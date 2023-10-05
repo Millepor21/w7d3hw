@@ -5,21 +5,22 @@ let idGen = 0;
 toDoForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const toDoItem = getToDoItem();
-  console.log(toDoItem);
-  addToDoItem(toDoItem);
+  const toDoTitle = getToDoTitle();
+  addToDoEntry(toDoTitle, toDoItem);
 });
 
+function getToDoTitle() {
+  return document.querySelector("#to-do-title").value;
+}
 function getToDoItem() {
-  return document.querySelector("#to-do").value;
+  return document.querySelector("#to-do-item").value;
 }
 const toDoContainer = document.getElementById("to-do-container");
 
-function addToDoItem(item) {
+function addToDoEntry(title, item) {
   const listItem = document.createElement("li");
-  console.log(typeof item);
-  listItem.innerText = item.charAt(0).toUpperCase() + item.slice(1);
-  listItem.style.fontSize = "x-large"
-
+  listItem.innerText =`${titleCase(title)}: ${item.charAt(0).toUpperCase() + item.slice(1)}`
+  listItem.style.fontSize = "medium";
   listItem.id = idGen;
   idGen++;
   console.log(listItem);
@@ -30,7 +31,15 @@ function addToDoItem(item) {
 }
 
 function deleteToDoItem(id) {
-  console.log(id);
   let child = document.getElementById(id);
   toDoContainer.removeChild(child);
-}   
+}
+
+function titleCase(astring) {
+    let output = ''
+    const wordsArray = astring.split(' ')
+    for (const word of wordsArray) {
+      output += word[0].toUpperCase() + word.substring(1) + ' '
+    }
+    return output.trim()
+  }
